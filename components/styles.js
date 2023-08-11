@@ -142,29 +142,11 @@ const bookOfStyles = {
 
       'event',
 
-      'bg-white',
-
-      'rounded',
-
-      'shadow-md',
-
-      'p-4',
-
-      'flex',
-
-      'flex-col',
-
-      'm-6',
-
-      'mt-8',
-
-      'width-500'
-
     ],
 
  
 
-    actionsWrapper: ['actions', 'flex', 'items-center', 'mt-4'],
+    actionsWrapper: [],
 
  
 

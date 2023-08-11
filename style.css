@@ -17,17 +17,31 @@ h1 {
 }
 
 .events .event {
-  width: 300px;
+
+  width: 500px;
+  height: 300px;
   border: 1px solid #ebf1f6;
+  border-radius: 3%;
   box-shadow: 0 0 2px 0 rgba(145,158,171,.2), 0 12px 24px -4px rgba(145,158,171,.12);
+  justify-content: center;
+  flex-direction: column; 
+  align-items: center;
+  margin: 5%;
 }
 
 .event-title {
-  color: #de411b
+  color: #de411b;
+  text-align: center;
 }
 
 .event img {
-  height: 150px;
+  height: 300x;
+  display: flex;
+  justify-content: left;
+}
+
+.content{
+  justify-content: center;
 }
 
 #ticketType {
