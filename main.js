@@ -1,5 +1,6 @@
+import { data } from "autoprefixer";
 import { useStyle } from "./components/styles";
-import { kebebCase } from "./utils";
+import { kebabCase } from "./utils";
 
 // Navigate to a specific URL
 function navigateTo(url) {
@@ -11,7 +12,17 @@ function getHomePageTemplate() {
   return `
    <div id="content" >
       <img class="banner" src="./src/assets/TMSBanner.png" alt="summer">
-      <div class="events flex items-center justify-center flex-wrap">
+      <div class="all-filters">
+        <h1>Explore events</h1>
+        <div class="live-search">
+          <input type="text" id="filter-name" placeholder="Filter by name" class="filter-input" />
+        </div>
+        <div class="checkbox-filter-container">
+          <div class="venue-filter-container"></div>
+          <div class="event-type-filter-container"></div>
+        </div>
+      </div>
+      <div class="events">
       </div>
     </div>
   `;
@@ -19,8 +30,24 @@ function getHomePageTemplate() {
 
 function getOrdersPageTemplate() {
   return `
-    <div id="content">
+    <div id="order-content">
     <h1 class="text-2xl mb-4 mt-8 text-center">Purchased Tickets</h1>
+      <div class="purchases">
+      <table class="purchase-table">
+        <thead>
+          <tr>
+            <th class="purchase-title">Name</th>
+            <th class="purchase-title">Nb tickets</th>
+            <th class="purchase-title">Category</th>
+            <th class="purchase-title">Date</th>
+            <th class="purchase-title">Price</th>
+            <th class="purchase-title">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="purchases-content">
+        </tbody>
+      </table>
+      </div>
     </div>
   `;
 }
@@ -59,42 +86,27 @@ function setupInitialPage() {
   renderContent(initialUrl);
 }
 
-function renderHomePage() {
+async function renderHomePage() {
   const mainContentDiv = document.querySelector('.main-content-component');
   mainContentDiv.innerHTML = getHomePageTemplate();
   fetchEvents()
     .then((data) => {
       console.log('data', data);
       addEvents(data);
+      setupFilterEvents(data);
+      createCheckboxesForEvents(data);
     });
-}
 
-async function fetchEvents() {
-  const apiUrl = 'http://localhost:9090/allevents';
-  const response = await fetch(apiUrl);
-  const events = await response.json();
-  return events;
-}
-
-const addEvents = (events) => {
-  const eventsDiv = document.querySelector('.events');
-  eventsDiv.innerHTML = 'No events!';
-  if (events.length) {
-    eventsDiv.innerHTML = '';
-    events.forEach((event) => {
-      eventsDiv.appendChild(createEvent(event));
-    })
-  }
 }
 
 const createEvent = (eventData) => {
-  const title = kebebCase(eventData.name);
+  const title = kebabCase(eventData.name);
   const eventElement = createEventElement(eventData, title);
   return eventElement;
 };
 
 const createEventElement = (eventData, title) => {
-  const { eventID, description, img, name, ticketCategories } = eventData;
+  const { eventID, description, name, ticketCategories, location} = eventData;
   const eventDiv = document.createElement('div');
   const eventWrapperClasses = useStyle('eventWrapper');
   const actionsWrapperClasses = useStyle('actionsWrapper');
@@ -109,11 +121,11 @@ const createEventElement = (eventData, title) => {
 
   const contentMarkup = `
     <header>
-      <h2 class="event-title text-2xl font-bold text-orange-700">${name}</h2>
+      <h2 class="event-title text-2xl font-bold">${name}</h2>
     </header>
     <div class="content">
-      <img src="./src/assets/TMSLogo.png" alt="${name}" class="event-image w-full height-200 rounded">
-      <p class="description text-gray-700">${description}</p>
+      <img src="./src/assets/TMSLogo.png" alt="${name}" class="event-img">
+      <p style="color: white; display: flex;">${description}</p>
     </div>
   `;
   
@@ -144,82 +156,82 @@ const createEventElement = (eventData, title) => {
 
   actions.innerHTML = ticketTypeMarkup;
 
-  const quantity = document.createElement('div');
-  quantity.classList.add(...quantityClasses);
+  // const quantity = document.createElement('div');
+  // quantity.classList.add(...quantityClasses);
 
-  const input = document.createElement('input');
-  input.classList.add(...inputClasses);
-  input.type = 'number';
-  input.min = 0;
-  input.value = 0;
+  // const input = document.createElement('input');
+  // input.classList.add(...inputClasses);
+  // input.type = 'number';
+  // input.min = 0;
+  // input.value = 0;
 
-  input.addEventListener('blur', () =>{
-    if(!input.value){
-      input.value = 0;
-    }
-  });
+  // input.addEventListener('blur', () =>{
+  //   if(!input.value){
+  //     input.value = 0;
+  //   }
+  // });
 
-  input.addEventListener('input', ()=>{
-    const currentQuantity = parseInt(input.value);
-    if (currentQuantity > 0){
-      addToCart.disabled = false;
-    }else{
-      addToCart.disabled = true;
-    }
-  });
+  // input.addEventListener('input', ()=>{
+  //   const currentQuantity = parseInt(input.value);
+  //   if (currentQuantity > 0){
+  //     addToCart.disabled = false;
+  //   }else{
+  //     addToCart.disabled = true;
+  //   }
+  // });
 
-  quantity.appendChild(input);
+  // quantity.appendChild(input);
 
-  const quantityActions = document.createElement('div');
-  quantityActions.classList.add(...quantityActionsClasses);
+  // const quantityActions = document.createElement('div');
+  // quantityActions.classList.add(...quantityActionsClasses);
 
-  const increase = document.createElement('button');
-  increase.classList.add(...increaseBtnClasses);
-  increase.innerText = '+';
-  increase.addEventListener('click', () =>{
-    input.value = parseInt(input.value) + 1;
-    const currentQuantity = parseInt(input.value);
-    if(currentQuantity > 0){
-      addToCart.disabled = false;
-    }else{
-      addToCart.disabled = true;
-    }
-  });
+  // const increase = document.createElement('button');
+  // increase.classList.add(...increaseBtnClasses);
+  // increase.innerText = '+';
+  // increase.addEventListener('click', () =>{
+  //   input.value = parseInt(input.value) + 1;
+  //   const currentQuantity = parseInt(input.value);
+  //   if(currentQuantity > 0){
+  //     addToCart.disabled = false;
+  //   }else{
+  //     addToCart.disabled = true;
+  //   }
+  // });
 
-  const decrease = document.createElement('button');
-  decrease.classList.add(...decreaseBtnClasses);
-  decrease.innerText = '-';
-  decrease.addEventListener('click', () => {
-    const currentValue = parseInt(input.value);
-    if (currentValue > 0) {
-      input.value = currentValue - 1;
-    }
-    const currentQuantity = parseInt(input.value);
-    if (currentQuantity > 0) {
-      addToCart.disabled = false;
-    } else {
-      addToCart.disabled = true;
-    }
-  });
+  // const decrease = document.createElement('button');
+  // decrease.classList.add(...decreaseBtnClasses);
+  // decrease.innerText = '-';
+  // decrease.addEventListener('click', () => {
+  //   const currentValue = parseInt(input.value);
+  //   if (currentValue > 0) {
+  //     input.value = currentValue - 1;
+  //   }
+  //   const currentQuantity = parseInt(input.value);
+  //   if (currentQuantity > 0) {
+  //     addToCart.disabled = false;
+  //   } else {
+  //     addToCart.disabled = true;
+  //   }
+  // });
 
-  quantityActions.appendChild(increase);
-  quantityActions.appendChild(decrease);
+  // quantityActions.appendChild(increase);
+  // quantityActions.appendChild(decrease);
 
-  quantity.appendChild(quantityActions);
-  actions.appendChild(quantity);
-  eventDiv.appendChild(actions);
+  // quantity.appendChild(quantityActions);
+  // actions.appendChild(quantity);
+   eventDiv.appendChild(actions);
 
-  const eventFooter = document.createElement('footer');
-  const addToCart = document.createElement('button');
-  addToCart.classList.add(...addToCartBtnClasses);
-  addToCart.innerText = 'Add to cart';
-  addToCart.disabled = true;
+  // const eventFooter = document.createElement('footer');
+  // const addToCart = document.createElement('button');
+  // addToCart.classList.add(...addToCartBtnClasses);
+  // addToCart.innerText = 'Add to cart';
+  // addToCart.disabled = true;
 
-  addToCart.addEventListener('click', ()=>{
+  // addToCart.addEventListener('click', ()=>{
 
-  })
-  eventFooter.appendChild(addToCart);
-  eventDiv.append(eventFooter);
+  // })
+  // eventFooter.appendChild(addToCart);
+  // eventDiv.append(eventFooter);
 
   return eventDiv;
 
@@ -228,6 +240,18 @@ const createEventElement = (eventData, title) => {
 function renderOrdersPage(categories) {
   const mainContentDiv = document.querySelector('.main-content-component');
   mainContentDiv.innerHTML = getOrdersPageTemplate();
+  const purchasesContent = document.getElementById('purchases-content');
+
+  
+  fetchOrders().then((orders) => {
+    if (orders.length){
+      orders.forEach((order) => {
+        const newOrder = createOrderItem(categories, order);
+        purchasesContent.appendChild(newOrder);
+      });
+    }
+  })
+
 }
 
 // Render content based on URL
@@ -238,7 +262,7 @@ function renderContent(url) {
   if (url === '/') {
     renderHomePage();
   } else if (url === '/orders') {
-    renderOrdersPage()
+    renderOrdersPage();
   }
 }
 

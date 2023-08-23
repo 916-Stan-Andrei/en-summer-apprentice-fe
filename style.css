@@ -4,7 +4,9 @@ body {
 }
 
 .events {
-  justify-content: center;
+  display: flex; /* Equivalent of 'flex' */
+  align-items: center; /* Equivalent of 'items-center' */
+  justify-content: center; /* Equivalent of 'justify-center' */
   flex-wrap: wrap;
 }
 
@@ -17,17 +19,30 @@ h1 {
 }
 
 .events .event {
-  width: 300px;
+
+  width: 500px;
+  height: 300px;
   border: 1px solid #ebf1f6;
   box-shadow: 0 0 2px 0 rgba(145,158,171,.2), 0 12px 24px -4px rgba(145,158,171,.12);
+  justify-content: center;
+  flex-direction: column; 
+  align-items: center;
+  margin: 5%;
 }
 
 .event-title {
-  color: #de411b
+  color: #de411b;
+  text-align: center;
 }
 
 .event img {
-  height: 150px;
+  height: 300x;
+  display: flex;
+  justify-content: left;
+}
+
+.content{
+  justify-content: center;
 }
 
 #ticketType {
@@ -36,6 +51,9 @@ h1 {
 
 .actions {
   flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .quantity {
@@ -76,5 +94,186 @@ h1 {
   width: 100%;
   padding-bottom: 10%;
 }
+
+.ticket-type-label{
+  color:rgb(158, 34, 247);
+}
+
+
+.purchase-title{
+  padding: 10px; 
+  color:orangered;
+  text-align: center;
+}
+
+.purchase-table{
+  color:pink;
+  width: 100%;
+  border: 1px solid white;
+}
+
+.purchases-content{
+  text-align: center;
+}
+
+th, td {
+  border: 1px solid white;
+  padding: 8px;
+  text-align: center;
+
+}
+
+.checkbox-filter-container{
+  color:white;
+  display: flex;
+  justify-content: center;
+}
+
+.venue-filter-container{
+  padding-bottom: 2%;
+  padding-right:2% ;
+}
+
+.event-img {
+  width: 100%; /* Adjust the width as needed */
+  height: auto;
+  object-fit: cover; /* Maintain aspect ratio */
+  border-radius: 0.25rem;
+}
+
+.input-style {
+  width: 40px;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem
+}
+
+.input-style:focus {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* focus:shadow-outline */
+}
+
+.quantity-actions {
+  display: flex; /* flex */
+  gap: 0.5rem; /* space-x-2 */
+  margin-left: 1.5rem; /* ml-6 */
+}
+
+.increase {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  outline: none;
+}
+
+.increase:hover {
+  background-color: #feb2b2; /* hover:bg-red-300 */
+}
+
+.increase:focus {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* focus:shadow-outline */
+}
+
+.decrease {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  outline: none;
+}
+
+.decrease:hover {
+  background-color: #555; /* hover:bg-black-300 */
+}
+
+.decrease:focus {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* focus:shadow-outline */
+}
+
+.add-to-cart-btn {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  outline: none;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #357dbb; /* Hover background color */
+}
+
+.add-to-cart-btn:focus {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* focus:shadow-outline */
+}
+
+.add-to-cart-btn[disabled] {
+  opacity: 0.5; /* disabled:opacity-50 */
+  cursor: not-allowed; /* disabled:cursor-not-allowed */
+}
+
+.ticket-type-label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.custom-ticket-type {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem; /* Equivalent of Tailwind's p-2 */
+  border: 1px solid #cbd5e0; /* Equivalent of Tailwind's border border-gray-300 */
+  border-radius: 0.25rem; /* Equivalent of Tailwind's rounded */
+  /* Add any other relevant styles here */
+}
+
+.select {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.description{
+  padding-left: 15%;
+}
+
+.all-filters{
+  text-align: center;
+}
+
+.live-search{
+  padding-bottom: 2%;
+}
+
+
+
+
+
+
+
+
 
 
